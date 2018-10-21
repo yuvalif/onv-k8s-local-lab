@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: another-cirros-multinet
+  annotations:
+    switches: an-ovn-switch1,an-ovn-switch2
+    k8s.v1.cni.cncf.io/networks: an-ovn-network1, an-ovn-network2
+spec:
+  containers:
+  - name: cirros
+    image: cirros
+    resources:
+      limits:
+        memory: "128Mi"
+    command: ["sleep", "1000"]

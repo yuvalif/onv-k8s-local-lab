@@ -1,4 +1,3 @@
-# this is based on ovn-kubernetes installation as described here: https://gist.github.com/yuvalif/b79add8202de69202c0d2bc6c2b67e00
 # this runs ovnkube as master and minion
 # run on Fedora28 as root
 set -ex

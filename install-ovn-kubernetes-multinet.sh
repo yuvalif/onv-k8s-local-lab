@@ -50,6 +50,12 @@ kubeadm init --pod-network-cidr=$CLUSTER_IP_SUBNET --token=$TOKEN --node-name=$N
 # to run kubectl from inside the node copy config
 mkdir -p /$USER/.kube && cp /etc/kubernetes/admin.conf /$USER/.kube/config
 
+# install flannel as the default CNI
+kubectl create -f https://raw.githubusercontent.com/intel/multus-cni/master/images/flannel-daemonset.yml
+
+# install multus to allow multiple CNIs
+kubectl create -f https://raw.githubusercontent.com/intel/multus-cni/master/images/multus-daemonset.yml
+
 # taint master - since we have a single node cluster
 kubectl taint nodes --all node-role.kubernetes.io/master-
 
@@ -65,7 +71,7 @@ systemctl start openvswitch && systemctl enable openvswitch
 
 # build and install ovn-kubernetes from source
 dnf install -y git go make
-git clone https://github.com/openvswitch/ovn-kubernetes 2> /dev/null || (cd ovn-kubernetes; git pull)
+git clone https://github.com/AlonaKaplan/ovn-kubernetes 2> /dev/null || (cd ovn-kubernetes; git pull)
 cd ovn-kubernetes/go-controller
 make && make install
 
