@@ -59,7 +59,7 @@ systemctl start openvswitch && systemctl enable openvswitch
 
 # build and install ovn-kubernetes from source
 dnf install -y git go make
-git clone https://github.com/AlonaKaplan/ovn-kubernetes
+git clone https://github.com/openvswitch/ovn-kubernetes
 cd ovn-kubernetes/go-controller
 make && make install
 
