@@ -61,16 +61,20 @@ To install a single node running both master and minion for k8s as well as ovn-k
 ```
 Because an additional network is needed, an additional switch needs to be added to the node. This is done by:
 ```bash
-TODO
+ovn-nbctl ls-add an-ovn-switch1
+ovn-nbctl ls-add an-ovn-switch2
+ovn-nbctl set logical_switch an-ovn-switch1 other-config:subnet=10.0.0.0/24
+ovn-nbctl set logical_switch an-ovn-switch2 other-config:subnet=10.10.0.0/24
 ```
 Now run ovn-kubernetes (similarly to the single net case):
 ```
 ./run-ovn-kubernetes.sh
 ```
 > The ovn-kubernetes log will be at ```/var/log/openvswitch/ovnkube.log```
-Now the NetworkAttachmentDefinitions CRD need to be created:
-```
-kubectl create 
+Now the NetworkAttachmentDefinitions CRDs need to be created:
+```bash
+kubectl create ovn-network1.yaml 
+kubectl create ovn-network2.yaml 
 ```
 To create the pods, use:
 ```

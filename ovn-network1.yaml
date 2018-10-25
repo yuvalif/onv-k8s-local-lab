@@ -8,5 +8,5 @@ spec:
     "name": "an-ovn-switch1",
     "type": "ovn-k8s-cni-overlay",
     "ipam": {},
-    "dns" {}
+    "dns": {}
 }'

@@ -3,8 +3,8 @@ kind: Pod
 metadata:
   name: cirros-multinet
   annotations:
-    switches: an-ovn-switch1
-    k8s.v1.cni.cncf.io/networks: an-ovn-network1
+    switches: an-ovn-switch1,an-ovn-switch2
+    k8s.v1.cni.cncf.io/networks: an-ovn-network1,an-ovn-network2
 spec:
   containers:
   - name: cirros
