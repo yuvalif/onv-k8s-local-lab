@@ -70,7 +70,9 @@ Now run ovn-kubernetes (similarly to the single net case):
 ```
 ./run-ovn-kubernetes.sh
 ```
+
 > The ovn-kubernetes log will be at ```/var/log/openvswitch/ovnkube.log```
+
 Now the NetworkAttachmentDefinitions CRDs need to be created:
 ```bash
 kubectl create ovn-network1.yaml 
@@ -86,5 +88,35 @@ To test connectivity we want to test ping between the pods:
 CIRROS_IP=`kubectl exec cirros-multinet ip addr | grep "10.10" | cut -f1 -d/ | awk '{print $2}'`
 kubectl exec another-cirros-multinet ping $CIRROS_IP
 ```
+### Connect to Physical Network
+For that, it is recommended to use a host with 2 physical interfaces. Assuming the 2nd interface is "eth1", first step is to greate an ovs bridge:
+```bash
+ovs-vsctl add-br breth1
+```
+And associate with an ovn physical network:
+```bash
+ovs-vsctl set Open_vSwitch . external-ids:ovn-bridge-mappings=phyNet:breth1
+```
+Now create the ovn logical bridge and ports (for physical network):
+```bash
+ovn-nbctl ls-add a-physnet-switch
+ovn-nbctl lsp-add a-physnet-switch physport-localnet
+ovn-nbctl lsp-set-addresses physport-localnet unknown
+ovn-nbctl lsp-set-type physport-localnet localnet
+ovn-nbctl lsp-set-options physport-localnet network_name=phyNet
+```
+Last, associate the ovs bridge with the physical NIC:
+```bash
+ovs-vsctl add-port breth1 eth1
+```
+Now create the ```NetworkAttachmentDefinition``` CRD for that new switch:
+```bash
+kubectl create -f ovn-physnet.yaml 
+```
+And create a pod that uses it:
+```bash
+kubectl create -f cirros-pod-physnet.yaml
+```
+
 ## Multiple Node
 TODO
