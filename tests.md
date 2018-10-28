@@ -89,6 +89,9 @@ CIRROS_IP=`kubectl exec cirros-multinet ip addr | grep "10.10" | cut -f1 -d/ | a
 kubectl exec another-cirros-multinet ping $CIRROS_IP
 ```
 ### Connect to Physical Network
+
+> Currently blocked by [OVN issue](https://bugzilla.redhat.com/show_bug.cgi?id=1643749)
+
 For that, it is recommended to use a host with 2 physical interfaces. Assuming the 2nd interface is "eth1", first step is to greate an ovs bridge:
 ```bash
 ovs-vsctl add-br breth1
