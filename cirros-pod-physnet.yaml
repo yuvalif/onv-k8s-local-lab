@@ -5,6 +5,7 @@ metadata:
   annotations:
     switches: a-physnet-switch
     k8s.v1.cni.cncf.io/networks: an-ovn-physnet
+    ovn_extra: '{"a-physnet-switch":{"mac_address":"0a:00:00:00:00:01"}}'
 spec:
   containers:
   - name: cirros
