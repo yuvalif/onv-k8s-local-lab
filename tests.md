@@ -91,6 +91,13 @@ kubectl exec another-cirros-multinet ping $CIRROS_IP
 ### Connect to Physical Network
 
 > Currently blocked by [OVN issue](https://bugzilla.redhat.com/show_bug.cgi?id=1643749)
+> Would work only if static MAC is provided in pod annotation. For example:
+> ```yaml
+> annotations:
+>    switches: a-physnet-switch
+>    k8s.v1.cni.cncf.io/networks: an-ovn-physnet
+>    ovn_extra: '{"a-physnet-switch":{"mac_address":"0a:00:00:00:00:01"}}'
+> ```
 
 For that, it is recommended to use a host with 2 physical interfaces. Assuming the 2nd interface is "eth1", first step is to greate an ovs bridge:
 ```bash
@@ -119,6 +126,15 @@ kubectl create -f ovn-physnet.yaml
 And create a pod that uses it:
 ```bash
 kubectl create -f cirros-pod-physnet.yaml
+```
+
+To make sure that the pod is indeed connected to the physical network, use a pod with ``tcpdump``` installed:
+```bash
+kubectl create -f fedora-pod-physnet.yaml
+```
+And run:
+```bash
+kubectl exec -it fedora-physnet tcpdump -- -n -i net1
 ```
 
 ## Multiple Node
