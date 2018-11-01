@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: fedora-physnet
+  name: another-fedora-physnet
   annotations:
     switches: a-physnet-switch
     k8s.v1.cni.cncf.io/networks: an-ovn-physnet
-    ovn_extra: '{"a-physnet-switch":{"mac_address":"0a:00:00:00:00:02"}}'
+    ovn_extra: '{"a-physnet-switch":{"mac_address":"0a:00:00:00:00:03"}}'
 spec:
   containers:
   - name: fedora
