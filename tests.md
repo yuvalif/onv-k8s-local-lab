@@ -128,5 +128,14 @@ And create a pod that uses it:
 kubectl create -f cirros-pod-physnet.yaml
 ```
 
+To make sure that the pod is indeed connected to the physical network, use a pod with ``tcpdump``` installed:
+```bash
+kubectl create -f fedora-pod-physnet.yaml
+```
+And run:
+```bash
+kubectl exec -it fedora-physnet tcpdump -- -n -i net1
+```
+
 ## Multiple Node
 TODO
