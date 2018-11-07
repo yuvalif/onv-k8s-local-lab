@@ -111,6 +111,13 @@ Now create the ovn logical bridge and ports (for physical network):
 ```bash
 ovn-nbctl ls-add a-physnet-switch
 ovn-nbctl lsp-add a-physnet-switch physport-localnet
+```
+Or, alternatively, replace the last line with:
+```
+ovn-nbctl lsp-add a-physnet-switch physport-localnet parent 101
+```
+To mark that port with VLAN tag 101 (instead of the default one).
+```
 ovn-nbctl lsp-set-addresses physport-localnet unknown
 ovn-nbctl lsp-set-type physport-localnet localnet
 ovn-nbctl lsp-set-options physport-localnet network_name=phyNet
