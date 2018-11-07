@@ -135,13 +135,30 @@ And create a pod that uses it:
 kubectl create -f cirros-pod-physnet.yaml
 ```
 
-To make sure that the pod is indeed connected to the physical network, use a pod with ``tcpdump``` installed:
+To make sure that the pod is indeed connected to the physical network, use pods with ```tcpdump```, ```ip``` and ```ping``` installed:
 ```bash
 kubectl create -f fedora-pod-physnet.yaml
+kubectl create -f another-fedora-pod-physnet.yaml
 ```
-And run:
+Make sure that the additional interfaces were added on the pods:
 ```bash
-kubectl exec -it fedora-physnet tcpdump -- -n -i net1
+kubectl exec -it fedora-physnet ip link
+kubectl exec -it another-fedora-physnet ip link
+```
+Then allocate static IPs on these interfaces with their routes:
+```bash
+kubectl exec -it fedora-physnet ip addr add 192.168.50.2 dev net1
+kubectl exec -it fedora-physnet ip route add 192.168.50.0/24 dev net1
+kubectl exec -it another-fedora-physnet ip addr add 192.168.50.3 dev net1
+kubectl exec -it another-fedora-physnet ip route add 192.168.50.0/24 dev net1
+```
+Then ping from one pod:
+```bash
+kubectl exec -it fedora-physnet ping 192.168.50.3
+```
+And tcpdump on the other:
+```bash
+kubectl exec -it another-fedora-physnet tcpdump -- -n -i net1
 ```
 
 ## Multiple Node
