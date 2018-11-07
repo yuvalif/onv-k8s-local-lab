@@ -10,6 +10,9 @@ spec:
   containers:
   - name: fedora
     image: yuvalif/fedora-tcpdump
+    securityContext:
+      capabilities:
+        add: ["NET_ADMIN"]
     resources:
       limits:
         memory: "128Mi"
