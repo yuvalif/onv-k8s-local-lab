@@ -75,8 +75,8 @@ Now run ovn-kubernetes (similarly to the single net case):
 
 Now the NetworkAttachmentDefinitions CRDs need to be created:
 ```bash
-kubectl create ovn-network1.yaml 
-kubectl create ovn-network2.yaml 
+kubectl create -f ovn-network1.yaml 
+kubectl create -f ovn-network2.yaml 
 ```
 To create the pods, use:
 ```
