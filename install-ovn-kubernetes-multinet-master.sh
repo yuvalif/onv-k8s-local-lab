@@ -56,9 +56,6 @@ kubectl create -f https://raw.githubusercontent.com/intel/multus-cni/master/imag
 # install multus to allow multiple CNIs
 kubectl create -f https://raw.githubusercontent.com/intel/multus-cni/master/images/multus-daemonset.yml
 
-# taint master - so we can run pods there
-kubectl taint nodes --all node-role.kubernetes.io/master-
-
 export SERVICE_IP_SUBNET=`kubectl cluster-info dump  | grep service-cluster | cut -d'=' -f2 | cut -d'"' -f1`
 
 # install and run ovs/ovn
